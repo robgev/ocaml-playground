@@ -18,3 +18,44 @@ let rec power1 x n =
     if n = 1 then x else
       x * power1 x (n - 1)
 let isConsonant c = not (isVowel1 c)
+(* Ladies and gentlemen, please welcome your majesty pattern matching :D *) 
+let rec factorial a =
+  match a with
+    1 -> 1
+  | _ -> a * factorial (a - 1)
+let isVowel c =
+  match c with
+    'a' | 'e' | 'i' | 'o' | 'u' -> true
+    | _ -> false
+
+let rec gcd a b =
+  match b with
+    0 -> a
+  | _ -> gcd b (a mod b)
+
+let not a =
+  match a with
+    false -> true
+  | true -> false
+
+let rec sum a =
+  match a with
+    1 -> 1
+  | _ -> a + sum (a - 1)
+
+let rec power x n =
+  match n with
+    0 -> 1
+  | 1 -> x
+  | _ -> x * power x (n - 1)
+
+(* Just a nested match example. The result will be 5 *)
+let a =
+  match 1 + 1 with
+    2 -> ( match 2 + 2 with
+             3 -> 4
+           | 4 -> 5
+           | _ -> 0
+         )
+  | _ -> 01
+         
