@@ -84,3 +84,26 @@ let rec length_inner l n =
 
 let length_adv l = length_inner l 0
 
+(* A little tricky one *)
+let rec odd_elements l =
+  match l with
+    [] -> []
+  | [h] -> [h]
+  | h::_::t -> h :: odd_elements t
+
+(* Better version *)
+let rec odd_elements_refined l =
+  match l with
+    h::_::t -> h :: odd_elements_refined t
+  | _ -> l
+
+(* Coooool *)
+let rec append a b =
+  match a with
+    [] -> b
+  | h::t -> h :: append t b
+  
+let rec reverse a =
+  match a with
+    [] -> []
+  | h::t -> reverse t @ h;;
