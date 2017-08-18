@@ -90,7 +90,7 @@ let rec odd_elements l =
     [] -> []
   | [h] -> [h]
   | h::_::t -> h :: odd_elements t
-
+                                 
 (* Better version *)
 let rec odd_elements_refined l =
   match l with
@@ -119,4 +119,17 @@ let rec drop n l =
     match l with
       h::t -> drop (n - 1) l
 
-                   
+(* Counting the number of true elements - looks awesome. Second version is tail recurisve one *)                   
+let rec count_true l =
+  match l with
+    [] -> 0
+  | true::t -> 1 + count_true t
+  | _::t -> count_true t
+                       
+let rec count_true_inner l n =
+  match l with
+    [] -> n
+  | true::t -> count_true_inner t (n + 1)
+  | _::t -> count_true_inner t n
+
+let count_true_tailrec l = count_true_inner l 0
