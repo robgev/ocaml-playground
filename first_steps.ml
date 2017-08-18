@@ -165,3 +165,16 @@ let rec drop_last_inner l acc =
 
 let rec drop_last_tailrec l =
   drop_last_inner l []
+
+(* Check if an element is in the list *)
+let rec member n l =
+  match l with
+    [] -> false
+  | h::t -> h = n || member n t
+
+(* Remove duplicate elements, nice that you build on top of simpler function - member *)
+let rec make_set l =
+  match l with
+    [] -> []
+  | h::t -> if member h t then make_set t else h :: make_set t
+  
