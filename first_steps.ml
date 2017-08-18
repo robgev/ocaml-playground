@@ -106,8 +106,16 @@ let rec append a b =
 let rec reverse a =
   match a with
     [] -> []
-  | h::t -> reverse t @ h;;
+  | h::t -> reverse t @ [h]
 
+let rec reverse_inner l a =
+  match l with
+    [] -> a
+  | h::t -> reverse_inner t (h :: a)
+
+let reverse_t l =
+  reverse_inner l []
+                          
 (* Simple functions to take/drop first n elements of the list *)
 let rec take n l =
   if n = 0 then [] else
@@ -132,4 +140,28 @@ let rec count_true_inner l n =
   | true::t -> count_true_inner t (n + 1)
   | _::t -> count_true_inner t n
 
-let count_true_tailrec l = count_true_inner l 0
+let count_true_tailrec l =
+  count_true_inner l 0
+
+(* Simple palindrome ones *)
+let build_palindrome l =
+  l @ reverse l
+
+let check_palindrome l =
+  l = reverse l
+
+(* Drop last, 2 versions *)
+let rec drop_last l =
+  match l with
+    [] -> []
+  | [_] -> []
+  | h::t -> h :: drop_last t
+
+let rec drop_last_inner l acc =
+  match l with
+    [] -> []
+  | [_] -> reverse_t acc
+  | h::t -> drop_last_inner t (h :: acc)
+
+let rec drop_last_tailrec l =
+  drop_last_inner l []
