@@ -107,3 +107,16 @@ let rec reverse a =
   match a with
     [] -> []
   | h::t -> reverse t @ h;;
+
+(* Simple functions to take/drop first n elements of the list *)
+let rec take n l =
+  if n = 0 then [] else
+    match l with
+      h::t -> h :: take (n - 1) l
+
+let rec drop n l =
+  if n = 0 then l else
+    match l with
+      h::t -> drop (n - 1) l
+
+                   
