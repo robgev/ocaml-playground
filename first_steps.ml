@@ -65,3 +65,22 @@ let isLower c =
     'a' .. 'z' -> true
   | _ -> false
 
+(* This one is pretty much awesome. Using con(::) to deconstruct the list. *)
+let rec length l =
+  match l with
+    [] -> 0
+  | h::t -> length t + 1
+
+let rec add_list l =
+  match l with
+    [] -> 0
+  | h::t -> h + add_list t
+
+(* More advanced example, needs less memory *)
+let rec length_inner l n =
+  match l with
+    [] -> n
+  | h::t -> length_inner t (n + 1)
+
+let length_adv l = length_inner l 0
+
