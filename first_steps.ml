@@ -59,3 +59,9 @@ let a =
          )
   | _ -> 01
          
+
+let isLower c =
+  match c with
+    'a' .. 'z' -> true
+  | _ -> false
+
