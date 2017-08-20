@@ -66,10 +66,10 @@ let isLower c =
   | _ -> false
 
 (* This one is pretty much awesome. Using con(::) to deconstruct the list. *)
-let rec length l =
+let rec length_bad l =
   match l with
     [] -> 0
-  | h::t -> length t + 1
+  | h::t -> length_bad t + 1
 
 let rec add_list l =
   match l with
@@ -82,7 +82,7 @@ let rec length_inner l n =
     [] -> n
   | h::t -> length_inner t (n + 1)
 
-let length_adv l = length_inner l 0
+let length l = length_inner l 0
 
 (* A little tricky one *)
 let rec odd_elements l =
@@ -120,12 +120,14 @@ let reverse_t l =
 let rec take n l =
   if n = 0 then [] else
     match l with
-      h::t -> h :: take (n - 1) l
+      [] -> []
+    | h::t -> h :: take (n - 1) l
 
 let rec drop n l =
   if n = 0 then l else
     match l with
-      h::t -> drop (n - 1) l
+      [] -> []
+    | h::t -> drop (n - 1) l
 
 (* Counting the number of true elements - looks awesome. Second version is tail recurisve one *)                   
 let rec count_true l =
@@ -191,5 +193,24 @@ let rec sort l =
   match l with
     [] -> []
   | h::t -> insert h (sort t)
-       
-  
+
+(* Merge sort. Matching on more than one thing. Using length, take and drop we wrote *)
+let rec merge x y =
+  match x, y with
+    [], l -> l
+  | l, [] -> l
+  | hx::tx, hy::ty ->
+     if hx < hy
+     then hx :: merge tx (hy :: ty)
+     else hy :: merge (hx :: tx) ty
+
+let rec merge_sort l =
+  match l with
+    [] -> []
+  | [x] -> [x]
+  | _ ->
+     let half = length l / 2 in
+     let left = take half l in
+     let right = drop half l in
+     merge (merge_sort left) (merge_sort right)
+
