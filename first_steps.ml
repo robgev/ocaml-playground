@@ -181,6 +181,7 @@ let rec make_set l =
   | h::t -> if member h t then make_set t else h :: make_set t
 
 (* Insertion sort. Understanding how to break the problem into small pieces using FP logic *)
+(* For reverse order need to simply change <= with >= *)
 let rec insert x l =
   match l with
     [] -> [x]
@@ -189,10 +190,10 @@ let rec insert x l =
      then x :: h :: t
      else h :: insert x t
 
-let rec sort l =
+let rec insert_sort l =
   match l with
     [] -> []
-  | h::t -> insert h (sort t)
+  | h::t -> insert h (insert_sort t)
 
 (* Merge sort. Matching on more than one thing. Using length, take and drop we wrote *)
 let rec merge x y =
@@ -214,3 +215,8 @@ let rec merge_sort l =
      let right = drop half l in
      merge (merge_sort left) (merge_sort right)
 
+(* Function to check if the list is sorted *)
+let rec is_sorted l =
+  match l with
+    a::b::t -> a <= b && is_sorted (b :: t)
+  | _ -> true
