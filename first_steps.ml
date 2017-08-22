@@ -121,13 +121,13 @@ let rec take n l =
   if n = 0 then [] else
     match l with
       [] -> []
-    | h::t -> h :: take (n - 1) l
+    | h::t -> h :: take (n - 1) t
 
 let rec drop n l =
   if n = 0 then l else
     match l with
       [] -> []
-    | h::t -> drop (n - 1) l
+    | h::t -> drop (n - 1) t
 
 (* Counting the number of true elements - looks awesome. Second version is tail recurisve one *)                   
 let rec count_true l =
