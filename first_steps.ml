@@ -220,3 +220,109 @@ let rec is_sorted l =
   match l with
     a::b::t -> a <= b && is_sorted (b :: t)
   | _ -> true
+
+(* Our own map function *)
+let rec map f l =
+  match l with
+    [] -> []
+  | h::t -> f h :: map f t
+
+let is_even x =
+  x mod 2 = 0
+
+let evens_traditional l =
+  map is_even l
+
+(* Simple function using inline arrow(anonymous) function and map *)
+let evens l =
+  map (fun x -> x mod 2 = 0) l
+
+(* More advanced merge sort. Giving compare function as an argument *)
+let greater a b =
+  a >= b
+      
+let rec merge_adv cmp a b =
+  match a, b with
+    [], l -> l
+  | l, [] -> l
+  | ha::ta, hb::tb ->
+     if cmp ha hb
+     then ha :: merge_adv cmp ta (hb::tb)
+     else hb :: merge_adv cmp (ha::ta) tb
+       
+let rec merge_sort_adv cmp l =
+  match l with
+    [] -> []
+  | [x] -> [x]
+  | _ ->
+     let half = length l / 2 in
+     let left = take half l in
+     let right = drop half l in
+     merge_adv cmp (merge_sort_adv cmp left) (merge_sort_adv cmp right)
+
+(* There is a shorthand of turning any legal operator into a function. Just wrap it with parantheses. E.g.  *)
+(* merge_sort_adv ( <= ) [5; 4; 6; 2; 1] -> Ascending sort *)
+(* OR *)
+(* merge_sort_adv ( >= ) [5; 4; 6; 2; 1] -> Descending sort *)
+
+let rec calm l =
+  match l with
+    [] -> []
+  | '!'::t -> '.' :: t
+  | h::t -> h :: calm t
+
+let calm_char c =
+  match c with
+    '!' -> '.'
+  | _ -> c
+
+let calm_map l =
+  map calm_char l
+
+let clip a =
+  if a < 1 then 1 else
+    if a > 10 then 10 else a
+
+let cliplist l =
+  map clip l
+
+let cliplist_anon l =
+  map
+    (fun x ->
+      if x < 1 then 1 else
+        if x > 10 then 10 else x)
+    l
+(* A function to apply the function f with the argument init_arg n times *)
+let rec apply f n init_arg =
+  if n = 0
+  then init_arg
+  else f (apply f (n - 1) init_arg)
+  
+let power_applied a b =
+  apply (fun x -> x * a) b 1
+
+(* A filter function and a usage to filter evens *)        
+let rec filter f l =
+  match l with
+    [] -> []
+  | h::t ->
+     if f h
+     then h :: filter f t
+     else filter f t
+
+let evens l =
+  filter (fun x -> x mod 2 = 0) l
+
+(* Check if some condition is true for all elements *)         
+let rec for_all f l =
+  match l with
+    [] -> true
+  | h::t -> f h && for_all f t
+
+let all_positive l =
+  for_all (fun x -> x >= 0) l
+
+let rec map1 f l =
+  match l with
+    [] -> []
+  | h::t -> map f h :: map1 f t
