@@ -322,7 +322,55 @@ let rec for_all f l =
 let all_positive l =
   for_all (fun x -> x >= 0) l
 
-let rec map1 f l =
+let rec mapl f l =
   match l with
     [] -> []
-  | h::t -> map f h :: map1 f t
+  | h::t -> map f h :: mapl f t
+
+
+(* Partial application. You gan give just one argument to the 2 or more arg. function  *)
+(* To get a new function with 1 less args *)               
+let add x y = x + y
+(* This is the same as *)
+let add = fun x -> fun y -> x + y
+(* So we do smth like this *)
+let f = add 6
+(* Now we can use f with 1 arg. E. g. f 5 = 11 *)
+
+(* We can use that fact for doing smth like *)
+let map_add_six l = map (add 6) l
+let double_map l = map (( * ) 2) l
+
+(* We can rewrite mapping over 'a list list map1 func this 2 ways *)
+let rec mapl_1 f l = map (map f) l
+let rec mapl_2 f = map (map f)
+
+(* Check if element x is in all lists of ls *)
+let rec member_all x ls =
+  not (member false (map (member x) ls))
+(* Another way *)
+let rec member_all_clean x ls =
+  let booleans = map (member x) ls in
+  not (member false booleans)
+
+let mapll f l = mapl (mapl f) l
+(* OR *)
+let rec mapll f = map (map (map f)) 
+
+let truncate_l n l =
+  if length l >= n then take n l else l
+(* Or using take version in exceptions.ml *)
+(* let truncate_l_ex n l = *)
+(*   try take n l with Invalid_argument "take" -> l *)
+                      
+let rec truncate n ll =
+  map (truncate_l n) ll
+      (* Or use truncate_l_ex *)
+
+let first_element_l n l =
+  match l with
+    [] -> n
+  | h::_ -> h
+      
+let first_elements n ll =
+  map (first_element_l n) ll
