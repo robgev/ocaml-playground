@@ -153,4 +153,21 @@ let rec rect_sort rects =
   sort compare_widths (map rotate rects);;
 
 
-  
+let rec take_seq s n =
+  match s with
+    Nil -> if n = 0
+           then Nil
+           else raise (Invalid_argument "take_seq")
+  | Cons (h, t) -> Cons(h, take_seq t (n - 1));;
+
+let rec drop_seq s n =
+  match s with
+    Nil -> if n = 0
+           then s
+           else raise (Invalid_argument "drop_seq")
+  | Cons (_, t) -> drop_seq t (n - 1);;
+
+let rec map_seq f s =
+  match s with
+    Nil -> Nil
+  | Cons (h, t) -> Cons (f h, map_seq f t);;
