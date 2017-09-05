@@ -171,3 +171,32 @@ let rec map_seq f s =
   match s with
     Nil -> Nil
   | Cons (h, t) -> Cons (f h, map_seq f t);;
+
+(* Extended expression type *)
+type xexpr =
+  Num of int
+| Add of xexpr * xexpr
+| Subtract of xexpr * xexpr
+| Multiply of xexpr * xexpr
+| Divide of xexpr * xexpr
+| Power of xexpr * xexpr;;
+
+(* Implement power function *)
+let rec apply f n init_arg =
+  if n = 0
+  then init_arg
+  else f (apply f (n - 1) init_arg);;
+
+let power a b =
+  apply (( * ) a) b 1;;
+
+(* Now use both power and xexpr for a new evaluate func *)
+let rec evaluate e =
+  match e with
+    Num n -> n
+  | Add (e, e1) -> evaluate e + evaluate e1
+  | Subtract (e, e1) -> evaluate e - evaluate e1
+  | Multiply (e, e1) -> evaluate e * evaluate e1
+  | Divide (e, e1) -> evaluate e / evaluate e1
+  | Power (b, e) -> power (evaluate b) (evaluate e);;
+
