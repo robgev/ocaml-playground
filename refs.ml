@@ -32,6 +32,15 @@ let print_up_to n =
     print_char '\t'
   done 
 
+(* We could implement our own for loop for a while now 
+   we already kind of did that with count in io.ml *)
+let rec forloop fn from _to =
+  if from <= _to then 
+    begin 
+        fn from;
+        forloop fn (from + 1) _to
+    end
+
 (* While loop! *)
 let continuous_input () = 
   let x = ref "" in 
