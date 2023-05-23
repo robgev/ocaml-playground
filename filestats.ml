@@ -32,7 +32,7 @@ let channel_stats ch =
       while true do
         let line = input_line ch in
           lines := !lines + 1;
-          chars := !chars + String.length line;
+          chars := !chars + String.length line + 1;
           (* Go over every char. If it's a char that 
              ends the sentences increment sentences
              If it's a space increment words. Otherwise
@@ -46,6 +46,11 @@ let channel_stats ch =
                 | _ -> ()
             )
             line;
+          (* Since we count words with spaces the last words
+             get ommited. So for every line count for one more
+             word
+          *)
+          words := !words + 1;
           (* Now go over every character and add increment count
               in the histogram array
           *)
